@@ -25,4 +25,10 @@ Opciones: Complementos > C3 Email Rules > Preferencias (editar listas, importar/
 - Se evalúa el encabezado `From`, que puede estar falsificado.
 - Fase 3 (opcional): sincronizar con filtros de cPanel vía UAPI para bloquear en el servidor.
 
-Licencia: MIT.
+## Licencia
+
+[MIT](LICENSE) © 2026 Cubo3 Ltda.
+
+---
+
+Desarrollado orgullosamente en Chile 🇨🇱 por [**Cubo3**](https://cubo3.cl), ingeniería de internet: desarrollo web a medida, gestión documental y GPS.
