@@ -8,3 +8,4 @@
 - **Repo:** https://github.com/cubo3/C3-ThunderbirdPlugin-EmailRules (público, MIT).
 - **Freedcamp:** proyecto "C3-Thunderbird Plugin" (ID 3781451), grupo Cubo3. Tareas ad hoc a nombre de Luis.
 - **Flujo:** commit al terminar cada sesión y push si es posible.
+- **Publicación (2026-10-13):** manifest con `browser_specific_settings` + íconos + `data_collection_permissions: none`; `npm run build` genera el .xpi; ficha ATN en `docs/ATN-listing.md`. Luis sube el .xpi a addons.thunderbird.net con su cuenta (listado).

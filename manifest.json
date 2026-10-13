@@ -5,10 +5,19 @@
   "version": "0.2.0",
   "author": "Cubo3 Ltda.",
   "homepage_url": "https://github.com/cubo3/C3-ThunderbirdPlugin-EmailRules",
-  "applications": {
+  "icons": {
+    "48": "icons/icon-48.png",
+    "96": "icons/icon-96.png"
+  },
+  "browser_specific_settings": {
     "gecko": {
       "id": "email-rules@cubo3.cl",
-      "strict_min_version": "128.0"
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
     }
   },
   "permissions": [
@@ -20,7 +29,10 @@
     "messagesUpdate"
   ],
   "background": {
-    "scripts": ["lib/rules.js", "background.js"]
+    "scripts": [
+      "lib/rules.js",
+      "background.js"
+    ]
   },
   "options_ui": {
     "page": "options/options.html",

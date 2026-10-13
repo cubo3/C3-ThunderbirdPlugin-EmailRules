@@ -3,5 +3,9 @@
   "version": "0.2.0",
   "private": true,
   "license": "MIT",
-  "scripts": { "test": "node test/rules.test.js" }
+  "scripts": {
+    "test": "node test/rules.test.js",
+    "build": "bash scripts/build.sh",
+    "lint": "npm run build && npx --yes web-ext lint --source-dir dist/stage"
+  }
 }

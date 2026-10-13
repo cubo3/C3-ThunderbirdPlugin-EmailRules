@@ -23,6 +23,11 @@ Los correos nuevos se evalúan contra las listas: los bloqueados se marcan como 
 
 Opciones: Complementos > C3 Email Rules > Preferencias (editar listas, importar/exportar JSON).
 
+## Empaquetar y publicar
+- `npm run build` genera `dist/c3-email-rules-<versión>.xpi` (solo los archivos del add-on).
+- `npm run lint` construye y valida con `web-ext` (las advertencias de APIs/permisos de Thunderbird son esperadas: `web-ext` valida contra Firefox).
+- Para publicar: subir el `.xpi` en https://addons.thunderbird.net (Developer Hub). Textos de la ficha y justificación de permisos en [`docs/ATN-listing.md`](docs/ATN-listing.md). Cada versión nueva debe subir `version` en `manifest.json`.
+
 ## Tests
 `npm test` (Node, solo lógica de reglas en `lib/rules.js`).
 
