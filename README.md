@@ -1,4 +1,6 @@
-# C3 Email Rules (add-on de Thunderbird)
+# C3 Email Rules: bloquear remitentes y filtrar correo no deseado en Thunderbird
+
+**C3 Email Rules** es un add-on gratuito y de código abierto para **Thunderbird** que permite **bloquear remitentes y dominios** y crear una **whitelist** (lista de remitentes seguros) con un clic derecho, para controlar el **correo no deseado (spam)** en cuentas IMAP y cPanel.
 
 Gestión de correo no deseado con clic derecho, al estilo Outlook Classic:
 
