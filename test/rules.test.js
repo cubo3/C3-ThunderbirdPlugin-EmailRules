@@ -29,4 +29,34 @@ const n = R.normalizeImport({ rules: { blockDomains: [" A.com ", "a.com"] }, set
 assert.deepStrictEqual(n.rules.blockDomains, ["a.com"]);
 assert.strictEqual(n.settings.blockAction, "trash");
 assert.throws(() => R.normalizeImport(null));
+// --- Reglas de carpeta ---
+const F = { id: "f1", accountId: "acc1", path: "/INBOX/Carrasco", name: "Carrasco" };
+const F2 = { id: "f2", accountId: "acc1", path: "/INBOX/Jefe", name: "Jefe" };
+const mr = { moveRules: [] };
+assert.ok(R.addMoveRule(mr, { type: "domain", value: "Carrasco.cl", folder: F, markRead: true }));
+assert.ok(R.addMoveRule(mr, { type: "sender", value: "jefe@carrasco.cl", folder: F2 }));
+assert.ok(!R.addMoveRule(mr, { type: "domain", value: "", folder: F }), "valor vacío");
+assert.ok(!R.addMoveRule(mr, { type: "otro", value: "a.cl", folder: F }), "tipo inválido");
+assert.ok(!R.addMoveRule(mr, { type: "domain", value: "a.cl" }), "sin carpeta");
+assert.strictEqual(mr.moveRules.length, 2);
+assert.strictEqual(R.findMoveRule("Ana <ana@carrasco.cl>", mr, on).folder.path, "/INBOX/Carrasco");
+assert.strictEqual(R.findMoveRule("ana@carrasco.cl", mr, on).markRead, true);
+assert.strictEqual(R.findMoveRule("jefe@carrasco.cl", mr, on).folder.path, "/INBOX/Jefe", "remitente exacto gana a dominio");
+assert.strictEqual(R.findMoveRule("x@mail.carrasco.cl", mr, on).folder.path, "/INBOX/Carrasco");
+assert.strictEqual(R.findMoveRule("x@mail.carrasco.cl", mr, off), null);
+assert.strictEqual(R.findMoveRule("x@xcarrasco.cl", mr, on), null, "sin coincidencia parcial");
+assert.strictEqual(R.findMoveRule("sin correo", mr, on), null);
+R.addMoveRule(mr, { type: "domain", value: "carrasco.cl", folder: F2, markRead: false });
+assert.strictEqual(mr.moveRules.length, 2, "misma regla se reemplaza");
+assert.strictEqual(R.findMoveRule("ana@carrasco.cl", mr, on).folder.path, "/INBOX/Jefe");
+const deep = { moveRules: [] };
+R.addMoveRule(deep, { type: "domain", value: "carrasco.cl", folder: F });
+R.addMoveRule(deep, { type: "domain", value: "ventas.carrasco.cl", folder: F2 });
+assert.strictEqual(R.findMoveRule("x@ventas.carrasco.cl", deep, on).folder.path, "/INBOX/Jefe", "gana el dominio más específico");
+
+const imp = R.normalizeImport({ rules: { moveRules: [{ type: "domain", value: "A.cl", folder: F, markRead: 1 }, { type: "x" }] }, settings: { markReadBlocked: true, markReadAllowed: "si" } });
+assert.strictEqual(imp.rules.moveRules.length, 1);
+assert.strictEqual(imp.rules.moveRules[0].markRead, true);
+assert.strictEqual(imp.settings.markReadBlocked, true);
+assert.strictEqual(imp.settings.markReadAllowed, false, "solo booleanos");
 console.log("OK: todos los tests pasaron");

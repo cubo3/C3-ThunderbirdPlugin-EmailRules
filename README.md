@@ -6,8 +6,12 @@ Gestión de correo no deseado con clic derecho, al estilo Outlook Classic:
 
 - Bloquear remitente / Bloquear dominio
 - Whitelist remitente / Whitelist dominio
+- **Reglas de carpeta** (como las reglas de Outlook): mover siempre los correos de un remitente o dominio a una carpeta, por ejemplo `carrasco.cl` → `INBOX/Carrasco`
+- **Marcar como leído** al procesar una regla: por regla de carpeta, y como opción global para bloqueados y whitelist
 
 Los correos nuevos se evalúan contra las listas: los bloqueados se marcan como basura y se mueven a Junk (o Papelera, configurable); los de la whitelist se desmarcan y vuelven a la bandeja de entrada si estaban en Junk.
+
+**Reglas de carpeta:** se crean en las opciones o desde el clic derecho (*Regla de carpeta para este dominio/remitente…*, que abre las opciones con el formulario ya relleno). Un remitente exacto gana a un dominio, y entre dominios gana el más específico. Con *Aplicar reglas a la selección* se ordenan correos que ya están en la bandeja.
 
 **Prioridad:** remitente permitido > remitente bloqueado > dominio permitido > dominio bloqueado.
 

@@ -19,6 +19,24 @@
         <option value="trash">Marcar y mover a la Papelera</option>
       </select>
     </label>
+    <label><input type="checkbox" id="markReadBlocked"> Marcar como leídos los correos bloqueados</label>
+    <label><input type="checkbox" id="markReadAllowed"> Marcar como leídos los correos de la whitelist</label>
+  </section>
+
+  <section id="moveSection">
+    <h2>Reglas de carpeta</h2>
+    <p class="hint">Mueve siempre los correos de un remitente o dominio a una carpeta (como las reglas de Outlook). Se aplican a los correos nuevos y con «Aplicar reglas a la selección» en el clic derecho.</p>
+    <ul id="moveList"></ul>
+    <form id="moveForm" class="moveForm">
+      <select id="moveType">
+        <option value="domain">Dominio</option>
+        <option value="sender">Remitente</option>
+      </select>
+      <input id="moveValue" placeholder="carrasco.cl" required>
+      <select id="moveFolder" required></select>
+      <label class="inline"><input type="checkbox" id="moveRead"> Marcar como leído</label>
+      <button type="submit">Agregar regla</button>
+    </form>
   </section>
 
   <div id="lists"></div>

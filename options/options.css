@@ -7,3 +7,11 @@ label { display: block; margin: .4rem 0; }
 .list li { display: flex; justify-content: space-between; padding: .2rem 0; border-bottom: 1px solid #8882; }
 .add { display: flex; gap: .5rem; } .add input { flex: 1; }
 #status { margin-left: .75rem; color: #2a7; }
+
+#moveList { list-style: none; padding: 0; margin: 0 0 .75rem; }
+#moveList li { display: flex; justify-content: space-between; gap: .5rem; padding: .25rem 0; border-bottom: 1px solid #8882; }
+#moveList .empty { color: #888; }
+.moveForm { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.moveForm input[type=text], .moveForm input:not([type]) { flex: 1 1 160px; }
+.moveForm select#moveFolder { flex: 2 1 240px; }
+label.inline { display: inline-flex; align-items: center; gap: .25rem; margin: 0; }

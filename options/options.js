@@ -25,9 +25,94 @@ function flash(msg) {
   setTimeout(() => ($("status").textContent = ""), 2500);
 }
 
+/* ---- Carpetas por cuenta ---- */
+let folderChoices = []; // [{ folder: {id, accountId, path, name}, label }]
+
+async function loadFolders() {
+  folderChoices = [];
+  const select = $("moveFolder");
+  select.textContent = "";
+  try {
+    const accounts = await browser.accounts.list();
+    for (const acc of accounts) {
+      if (!acc.rootFolder) continue;
+      const group = document.createElement("optgroup");
+      group.label = acc.name;
+      const walk = (folders, depth) => {
+        for (const f of folders || []) {
+          const idx = folderChoices.length;
+          folderChoices.push({ folder: { id: f.id, accountId: f.accountId, path: f.path, name: f.name }, label: acc.name + " / " + f.path });
+          const opt = document.createElement("option");
+          opt.value = String(idx);
+          opt.textContent = "\u00a0\u00a0".repeat(depth) + f.name;
+          group.append(opt);
+          walk(f.subFolders, depth + 1);
+        }
+      };
+      walk(await browser.folders.getSubFolders(acc.rootFolder, true), 0);
+      select.append(group);
+    }
+  } catch (e) {
+    console.error("[C3] no se pudieron listar carpetas", e);
+  }
+}
+
+function renderMoveRules() {
+  const ul = $("moveList");
+  ul.textContent = "";
+  const rules = state.rules.moveRules || [];
+  if (!rules.length) {
+    const li = document.createElement("li");
+    li.className = "empty";
+    li.textContent = "Sin reglas de carpeta todavía.";
+    ul.append(li);
+    return;
+  }
+  rules.forEach((r, i) => {
+    const li = document.createElement("li");
+    const span = document.createElement("span");
+    span.textContent = `${r.type === "domain" ? "Dominio" : "Remitente"} ${r.value} \u2192 ${r.folder.name} (${r.folder.path})` + (r.markRead ? " \u2022 marcar leído" : "");
+    const rm = document.createElement("button");
+    rm.textContent = "Quitar";
+    rm.addEventListener("click", async () => {
+      state.rules.moveRules.splice(i, 1);
+      await persist(); renderMoveRules();
+    });
+    li.append(span, rm);
+    ul.append(li);
+  });
+}
+
+$("moveForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const choice = folderChoices[Number($("moveFolder").value)];
+  if (!choice) { flash("Elige una carpeta"); return; }
+  const ok = C3Rules.addMoveRule(state.rules, {
+    type: $("moveType").value, value: $("moveValue").value, folder: choice.folder, markRead: $("moveRead").checked
+  });
+  if (!ok) { flash("Datos inválidos"); return; }
+  await persist();
+  $("moveValue").value = "";
+  renderMoveRules();
+  flash("Regla guardada");
+});
+
+function prefillFromHash() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  if (p.get("new") === "sender" || p.get("new") === "domain") {
+    $("moveType").value = p.get("new");
+    $("moveValue").value = p.get("value") || "";
+    $("moveSection").scrollIntoView();
+    $("moveFolder").focus();
+  }
+}
+
 function render() {
   $("includeSubdomains").checked = state.settings.includeSubdomains;
   $("blockAction").value = state.settings.blockAction;
+  $("markReadBlocked").checked = !!state.settings.markReadBlocked;
+  $("markReadAllowed").checked = !!state.settings.markReadAllowed;
+  renderMoveRules();
   const root = $("lists");
   root.textContent = "";
   for (const L of LISTS) {
@@ -67,6 +152,8 @@ function render() {
 }
 
 $("includeSubdomains").addEventListener("change", async (e) => { state.settings.includeSubdomains = e.target.checked; await persist(); });
+$("markReadBlocked").addEventListener("change", async (e) => { state.settings.markReadBlocked = e.target.checked; await persist(); });
+$("markReadAllowed").addEventListener("change", async (e) => { state.settings.markReadAllowed = e.target.checked; await persist(); });
 $("blockAction").addEventListener("change", async (e) => { state.settings.blockAction = e.target.value; await persist(); });
 
 $("export").addEventListener("click", () => {
@@ -87,4 +174,4 @@ $("importFile").addEventListener("change", async (e) => {
   e.target.value = "";
 });
 
-load().then(render);
+load().then(render).then(loadFolders).then(prefillFromHash);
