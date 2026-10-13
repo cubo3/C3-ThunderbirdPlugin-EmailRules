@@ -1,0 +1,9 @@
+body { font: 14px system-ui, sans-serif; margin: 1.5rem auto; max-width: 780px; padding: 0 1rem; }
+h1 { margin-bottom: .25rem; } .hint { color: #666; margin-top: 0; }
+section, .list { border: 1px solid #8884; border-radius: 6px; padding: .75rem 1rem; margin: 1rem 0; }
+label { display: block; margin: .4rem 0; }
+.list h2 { margin: 0 0 .5rem; font-size: 1rem; }
+.list ul { list-style: none; padding: 0; margin: 0 0 .5rem; max-height: 220px; overflow: auto; }
+.list li { display: flex; justify-content: space-between; padding: .2rem 0; border-bottom: 1px solid #8882; }
+.add { display: flex; gap: .5rem; } .add input { flex: 1; }
+#status { margin-left: .75rem; color: #2a7; }

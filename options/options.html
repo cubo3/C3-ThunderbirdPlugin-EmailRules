@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>C3 Email Rules</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <h1>C3 Email Rules</h1>
+  <p class="hint">Prioridad: remitente permitido &gt; remitente bloqueado &gt; dominio permitido &gt; dominio bloqueado.</p>
+
+  <section id="settings">
+    <h2>Configuración</h2>
+    <label><input type="checkbox" id="includeSubdomains"> Incluir subdominios (empresa.com cubre mail.empresa.com)</label>
+    <label>Al bloquear:
+      <select id="blockAction">
+        <option value="junk">Solo marcar como basura</option>
+        <option value="junk-and-move">Marcar y mover a Junk</option>
+        <option value="trash">Marcar y mover a la Papelera</option>
+      </select>
+    </label>
+  </section>
+
+  <div id="lists"></div>
+
+  <section>
+    <h2>Importar / Exportar</h2>
+    <button id="export">Exportar JSON</button>
+    <button id="importBtn">Importar JSON</button>
+    <input type="file" id="importFile" accept="application/json" hidden>
+    <span id="status" role="status"></span>
+  </section>
+
+  <script src="../lib/rules.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
